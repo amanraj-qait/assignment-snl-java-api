@@ -1,11 +1,14 @@
 package com.qainfotech.tap.training.snl.api;
 
-import org.testng.annotations.Test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import org.assertj.core.api.*;
+import java.util.UUID;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 /**
  * 
@@ -30,15 +33,8 @@ public class BoardTest {
 		testBoard = new Board();
 		testBoard.registerPlayer("Sam");
 		testBoard.registerPlayer("Agatha");
+		testBoard.registerPlayer("Dexter");
 	}
-
-	/*
-	 * @Test public void
-	 * registerPlayerMethodShouldReturnListOfRegisteredPlayers() {
-	 * 
-	 * }
-	 */
-
 	/**
 	 * 
 	 * @throws MaxPlayersReachedExeption
@@ -49,26 +45,31 @@ public class BoardTest {
 	 * @throws IOException
 	 */
 	@Test(expectedExceptions = PlayerExistsException.class)
-	public void registerPlayer_should_throw_PlayerExistsException_for_same_regisistration()
+	public void D_PlayerExistsException_for_same_regisistration()
 			throws MaxPlayersReachedExeption, FileNotFoundException, UnsupportedEncodingException,
 			PlayerExistsException, GameInProgressException, IOException {
 		testBoard.registerPlayer("Agatha");
+		
 	}
 
 	@Test
-	public void loadOptions() throws FileNotFoundException, UnsupportedEncodingException, PlayerExistsException,
+	public void M_L_loadOptions() throws FileNotFoundException, UnsupportedEncodingException, PlayerExistsException,
 			GameInProgressException, MaxPlayersReachedExeption, IOException {
 		testBoard.registerPlayer("Richard");
 
 	}
-/*
-	@Test
-	public void registerPlayer_should_throw_GameInProgressException_for_already_occuring_game()
+
+	@Test(expectedExceptions = GameInProgressException.class)
+	public void N_GameInProgressException_for_already_occuring_game()
 			throws MaxPlayersReachedExeption, FileNotFoundException, UnsupportedEncodingException,
-			PlayerExistsException, GameInProgressException, IOException {
-		assertThat((String)"Hello").isEqualTo("Hello");
+			PlayerExistsException, GameInProgressException, IOException, JSONException, InvalidTurnException {
+		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));	
+		testBoard.registerPlayer("Alfred");
 	}
-*/
+@Test
+public void N_DeletePlayer_to_delete_a_player() throws FileNotFoundException, UnsupportedEncodingException, JSONException, NoUserWithSuchUUIDException{
+	testBoard.deletePlayer((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
+}
 	/**
 	 * 
 	 * @throws MaxPlayersReachedExeption
@@ -79,11 +80,13 @@ public class BoardTest {
 	 * @throws IOException
 	 */
 	@Test(expectedExceptions = MaxPlayersReachedExeption.class)
-	public void registerPlayer_should_throw_theMaxPlayersReachedException_for_reaching_max_limit()
+	public void M_MaxPlayersReachedException_for_reaching_max_limit()
 			throws MaxPlayersReachedExeption, FileNotFoundException, UnsupportedEncodingException,
 			PlayerExistsException, GameInProgressException, IOException {
-		testBoard.registerPlayer("Brandon");
 		testBoard.registerPlayer("Maxwell");
+		testBoard.registerPlayer("Brandon");
+		
+	
 	}
 
 	/**
@@ -97,7 +100,21 @@ public class BoardTest {
 	 * @throws IOException
 	 */
 	@Test(expectedExceptions= NoUserWithSuchUUIDException.class)
-	public void the_deletePlayer_should_throw_NoUserWithSuchUUIDException_for_wrong_Uuid() throws FileNotFoundException, UnsupportedEncodingException, NoUserWithSuchUUIDException{
+	public void r_deletePlayer_should_throw_NoUserWithSuchUUIDException_for_wrong_Uuid() throws FileNotFoundException, UnsupportedEncodingException, NoUserWithSuchUUIDException{
 		testBoard.deletePlayer(this.testBoard.getUUID());
+	}
+	/**
+	 * 
+	 * @throws InvalidTurnException
+	 * @throws IOException 
+	 * @throws MaxPlayersReachedExeption 
+	 * @throws GameInProgressException 
+	 * @throws PlayerExistsException 
+	 */
+	@Test(expectedExceptions=  InvalidTurnException.class)
+	public void r_rollDice_should_throw_InvalidTurnException_for_wrong_turn() throws InvalidTurnException, PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption, IOException{
+		((JSONObject) testBoard.getData().getJSONArray("players").get(0)).put("position",100);
+		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
+
 	}
 }

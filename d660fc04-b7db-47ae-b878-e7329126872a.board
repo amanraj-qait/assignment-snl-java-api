@@ -1,27 +1,22 @@
 {
   "players": [
     {
-      "name": "Sam",
-      "position": 0,
-      "uuid": "a682e496-6e8d-4613-b334-4f9155cd0fdb"
+      "name": "Agatha",
+      "position": 5,
+      "uuid": "7d2f3628-9e49-4a4d-bef7-0c7ef85f2494"
     },
     {
-      "name": "Agatha",
+      "name": "Dexter",
       "position": 0,
-      "uuid": "91d0e12d-a724-428e-b642-676c3c7b3832"
+      "uuid": "a62253b1-b2e8-48e0-944c-9b17389139c3"
     },
     {
       "name": "Richard",
       "position": 0,
-      "uuid": "595f310c-ec43-4962-9212-ba1684ad448f"
-    },
-    {
-      "name": "Brandon",
-      "position": 0,
-      "uuid": "01622539-e259-4ffa-9aed-635611cfec18"
+      "uuid": "9642fafd-0a7a-4183-afb9-53e4a0bd9560"
     }
   ],
-  "turn": 0,
+  "turn": 1,
   "steps": [
     {
       "number": 0,
