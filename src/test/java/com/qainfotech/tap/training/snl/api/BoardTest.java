@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -116,5 +117,13 @@ public void N_DeletePlayer_to_delete_a_player() throws FileNotFoundException, Un
 		((JSONObject) testBoard.getData().getJSONArray("players").get(0)).put("position",100);
 		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
 
+	}
+	@Test
+	public void Check_Constructor_Board() throws IOException{
+	   JSONObject  data1 = testBoard.data;
+		Board newtest= new Board(testBoard.uuid);
+	   JSONObject data2 = newtest.data;
+		Assert.assertNotEquals(data1,data2);
+		
 	}
 }

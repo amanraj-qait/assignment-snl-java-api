@@ -2,18 +2,18 @@
   "players": [
     {
       "name": "Agatha",
-      "position": 5,
-      "uuid": "7d2f3628-9e49-4a4d-bef7-0c7ef85f2494"
+      "position": 4,
+      "uuid": "24f6b4df-666b-4476-bfff-8b98b75cda71"
     },
     {
       "name": "Dexter",
       "position": 0,
-      "uuid": "a62253b1-b2e8-48e0-944c-9b17389139c3"
+      "uuid": "9373e26a-31fd-4ca2-b75d-18b5389d71dd"
     },
     {
       "name": "Richard",
       "position": 0,
-      "uuid": "9642fafd-0a7a-4183-afb9-53e4a0bd9560"
+      "uuid": "996a1b77-261d-4f95-9cfb-b1392ac8c200"
     }
   ],
   "turn": 1,
