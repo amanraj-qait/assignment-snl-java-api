@@ -50,18 +50,47 @@ public class BoardTest {
 	public void D_PlayerExistsException_for_same_regisistration()
 			throws MaxPlayersReachedExeption, FileNotFoundException, UnsupportedEncodingException,
 			PlayerExistsException, GameInProgressException, IOException {
-		String name=(String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
-		if(testBoard.getData().getJSONArray("players").length()>=1){
-		testBoard.registerPlayer(name);
+		String name = (String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
+		if (testBoard.getData().getJSONArray("players").length() >= 1) {
+			testBoard.registerPlayer(name);
 		}
 	}
 
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 * @throws PlayerExistsException
+	 * @throws GameInProgressException
+	 * @throws MaxPlayersReachedExeption
+	 * @throws IOException
+	 */
 	@Test
-	public void M_L_load_registerPlayer() throws FileNotFoundException, UnsupportedEncodingException, PlayerExistsException,
-			GameInProgressException, MaxPlayersReachedExeption, IOException {
-		testBoard.registerPlayer("Richard");
+	public void M_L_load_registerPlayer() throws FileNotFoundException, UnsupportedEncodingException,
+			PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption, IOException {
+		String add_name = "Richard";
+		testBoard.registerPlayer(add_name);
+		if (testBoard.getData().getJSONArray("players").length() >= 1) {
+			/**
+			 * To check whether the new registration is saved at position other
+			 * than 0
+			 */
+			Assert.assertNotEquals(((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name"),
+					add_name);
+		}
 	}
 
+	/**
+	 * 
+	 * @throws MaxPlayersReachedExeption
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 * @throws PlayerExistsException
+	 * @throws GameInProgressException
+	 * @throws IOException
+	 * @throws JSONException
+	 * @throws InvalidTurnException
+	 */
 	@Test(expectedExceptions = GameInProgressException.class)
 	public void N_GameInProgressException_for_already_occuring_game()
 			throws MaxPlayersReachedExeption, FileNotFoundException, UnsupportedEncodingException,
@@ -69,23 +98,25 @@ public class BoardTest {
 		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
 		testBoard.registerPlayer("Alfred");
 	}
-/**
- * 
- * @throws FileNotFoundException
- * @throws UnsupportedEncodingException
- * @throws JSONException
- * @throws NoUserWithSuchUUIDException
- */
+
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 * @throws UnsupportedEncodingException
+	 * @throws JSONException
+	 * @throws NoUserWithSuchUUIDException
+	 */
 	@Test
 	public void N_DeletePlayer_to_delete_a_player()
 			throws FileNotFoundException, UnsupportedEncodingException, JSONException, NoUserWithSuchUUIDException {
-		if(testBoard.getData().getJSONArray("players").length()>1){
-		String name= (String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
-		testBoard.deletePlayer((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
-		String name2=(String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
-		Assert.assertNotEquals(name, name2);
-	}
+		if (testBoard.getData().getJSONArray("players").length() > 1) {
+			String name = (String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
+			testBoard
+					.deletePlayer((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
+			String name2 = (String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
+			Assert.assertNotEquals(name, name2);
 		}
+	}
 
 	/**
 	 * 
@@ -140,10 +171,11 @@ public class BoardTest {
 		((JSONObject) testBoard.getData().getJSONArray("players").get(0)).put("position", 100);
 		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
 	}
-/**
- * 
- * @throws IOException
- */
+
+	/**
+	 * 
+	 * @throws IOException
+	 */
 	@Test
 	public void Check_Constructor_Board() throws IOException {
 		JSONObject data1 = testBoard.data;
@@ -152,16 +184,17 @@ public class BoardTest {
 		Assert.assertNotEquals(data1, data2);
 
 	}
-/**
- * 
- * @throws JSONException
- * @throws InvalidTurnException
- * @throws PlayerExistsException
- * @throws GameInProgressException
- * @throws MaxPlayersReachedExeption
- * @throws IOException
- * @throws NoUserWithSuchUUIDException
- */
+
+	/**
+	 * 
+	 * @throws JSONException
+	 * @throws InvalidTurnException
+	 * @throws PlayerExistsException
+	 * @throws GameInProgressException
+	 * @throws MaxPlayersReachedExeption
+	 * @throws IOException
+	 * @throws NoUserWithSuchUUIDException
+	 */
 	@Test
 	public void rr_Check_where_the_player_has_to_move_to_on_running_rollDice()
 			throws JSONException, InvalidTurnException, PlayerExistsException, GameInProgressException,
@@ -188,9 +221,13 @@ public class BoardTest {
 			Assert.assertNotEquals(message, "Player was bit by a snake, moved back to " + new_position);
 		}
 	}
+
+	/**
+	 * 
+	 */
 	@Test
-	public void re_Check_wether_toString_method_is_returning_accurate_value(){
-		String value= "UUID:"+testBoard.uuid.toString()+"\n"+testBoard.data.toString();
+	public void re_Check_wether_toString_method_is_returning_accurate_value() {
+		String value = "UUID:" + testBoard.uuid.toString() + "\n" + testBoard.data.toString();
 		Assert.assertEquals(value, testBoard.toString());
 	}
 }
