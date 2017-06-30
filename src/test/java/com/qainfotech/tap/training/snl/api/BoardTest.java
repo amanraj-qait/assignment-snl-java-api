@@ -138,6 +138,7 @@ public class BoardTest {
 				testBoard.registerPlayer(names[nameloop]);
 			}
 		}
+		// gives MaxPlayerreachedException on Execution
 		testBoard.registerPlayer("Adrian");
 	}
 
@@ -171,6 +172,35 @@ public class BoardTest {
 		((JSONObject) testBoard.getData().getJSONArray("players").get(0)).put("position", 100);
 		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
 	}
+/**
+ * 
+ * @throws FileNotFoundException
+ * @throws UnsupportedEncodingException
+ * @throws IOException
+ * @throws PlayerExistsException
+ * @throws GameInProgressException
+ * @throws MaxPlayersReachedExeption
+ * @throws JSONException
+ * @throws InvalidTurnException
+ */
+	@Test
+	public void get_incorrect_roll_of_dice_message()
+			throws FileNotFoundException, UnsupportedEncodingException, IOException, PlayerExistsException,
+			GameInProgressException, MaxPlayersReachedExeption, JSONException, InvalidTurnException {
+		Board newTestBoard = new Board();
+		String[] names = { "Maxwell", "Brandon", "Kane", "Augustus" };
+		for (int nameloop = 0; nameloop < 4; nameloop++) {
+			newTestBoard.registerPlayer(names[nameloop]);
+		}
+		for (int index = 0; index <= 3; index++) {
+			newTestBoard.getData().getJSONArray("players").getJSONObject(index).put("position", 100);
+		}
+		JSONObject player_turn = (JSONObject) newTestBoard.getData().getJSONArray("players")
+				.get(Integer.parseInt(newTestBoard.data.get("turn").toString()));
+		// roll dice
+		JSONObject output_json = newTestBoard.rollDice(UUID.fromString(player_turn.get("uuid").toString()));
+		Assert.assertEquals(output_json.get("message"), "Incorrect roll of dice. Player did not move");
+	}
 
 	/**
 	 * 
@@ -199,19 +229,19 @@ public class BoardTest {
 	public void rr_Check_where_the_player_has_to_move_to_on_running_rollDice()
 			throws JSONException, InvalidTurnException, PlayerExistsException, GameInProgressException,
 			MaxPlayersReachedExeption, IOException, NoUserWithSuchUUIDException {
-		testBoard.deletePlayer((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
-		testBoard.registerPlayer("Alfred");
-		((JSONObject) testBoard.getData().getJSONArray("players").get(0)).put("position", 0);
-		UUID uuid = (UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid");
-		Object current_position = ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("position");
-		JSONObject obj = testBoard.rollDice(uuid);
-		Object new_position = ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("position");
+		Board newTest = new Board();
+		newTest.registerPlayer("Gordon");
+		((JSONObject)newTest.getData().getJSONArray("players").get(0)).put("position", 0);
+		UUID uuid = (UUID) ((JSONObject) newTest.getData().getJSONArray("players").get(0)).get("uuid");
+		Object current_position = ((JSONObject) newTest.getData().getJSONArray("players").get(0)).get("position");
+		JSONObject obj = newTest.rollDice(uuid);
+		Object new_position = ((JSONObject) newTest.getData().getJSONArray("players").get(0)).get("position");
 		Object dice = obj.get("dice");
 		Object message = obj.get("message");
 		int number = (int) current_position + (int) dice;
 		JSONObject steps = null;
 		// dice roll
-		steps = (JSONObject) testBoard.getData().getJSONArray("steps").get((int) number);
+		steps = (JSONObject) newTest.getData().getJSONArray("steps").get((int) number);
 		int type = (Integer) steps.get("type");
 		if (type == 2) {
 			Assert.assertNotEquals(message, "Player climbed a ladder, moved to " + new_position);
