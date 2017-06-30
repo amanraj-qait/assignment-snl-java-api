@@ -71,11 +71,20 @@ public class BoardTest {
 		testBoard.rollDice((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
 		testBoard.registerPlayer("Alfred");
 	}
-
+/**
+ * 
+ * @throws FileNotFoundException
+ * @throws UnsupportedEncodingException
+ * @throws JSONException
+ * @throws NoUserWithSuchUUIDException
+ */
 	@Test
 	public void N_DeletePlayer_to_delete_a_player()
 			throws FileNotFoundException, UnsupportedEncodingException, JSONException, NoUserWithSuchUUIDException {
+		String name= (String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
 		testBoard.deletePlayer((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
+		String name2=(String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
+		Assert.assertNotEquals(name, name2);
 	}
 
 	/**
