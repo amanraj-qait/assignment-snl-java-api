@@ -33,6 +33,9 @@ public class BoardTest {
 	public void loadOptions1() throws FileNotFoundException, UnsupportedEncodingException, IOException,
 			PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption {
 		testBoard = new Board();
+		/**
+		 * 
+		 */
 		testBoardModel = new BoardModel();
 		testBoard.registerPlayer("Agatha");
 	}
@@ -175,5 +178,10 @@ public class BoardTest {
 		} else if (type == 1) {
 			Assert.assertNotEquals(message, "Player was bit by a snake, moved back to " + new_position);
 		}
+	}
+	@Test
+	public void re_Check_wether_toString_method_is_returning_accurate_value(){
+		String value= "UUID:"+testBoard.uuid.toString()+"\n"+testBoard.data.toString();
+		Assert.assertEquals(value, testBoard.toString());
 	}
 }
