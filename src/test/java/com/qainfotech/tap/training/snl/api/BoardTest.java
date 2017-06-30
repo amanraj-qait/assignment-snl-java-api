@@ -33,9 +33,6 @@ public class BoardTest {
 	public void loadOptions1() throws FileNotFoundException, UnsupportedEncodingException, IOException,
 			PlayerExistsException, GameInProgressException, MaxPlayersReachedExeption {
 		testBoard = new Board();
-		/**
-		 * 
-		 */
 		testBoardModel = new BoardModel();
 		testBoard.registerPlayer("Agatha");
 	}
@@ -53,15 +50,16 @@ public class BoardTest {
 	public void D_PlayerExistsException_for_same_regisistration()
 			throws MaxPlayersReachedExeption, FileNotFoundException, UnsupportedEncodingException,
 			PlayerExistsException, GameInProgressException, IOException {
-		testBoard.registerPlayer("Agatha");
-
+		String name=(String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
+		if(testBoard.getData().getJSONArray("players").length()>=1){
+		testBoard.registerPlayer(name);
+		}
 	}
 
 	@Test
-	public void M_L_loadOptions() throws FileNotFoundException, UnsupportedEncodingException, PlayerExistsException,
+	public void M_L_load_registerPlayer() throws FileNotFoundException, UnsupportedEncodingException, PlayerExistsException,
 			GameInProgressException, MaxPlayersReachedExeption, IOException {
 		testBoard.registerPlayer("Richard");
-
 	}
 
 	@Test(expectedExceptions = GameInProgressException.class)
@@ -81,11 +79,13 @@ public class BoardTest {
 	@Test
 	public void N_DeletePlayer_to_delete_a_player()
 			throws FileNotFoundException, UnsupportedEncodingException, JSONException, NoUserWithSuchUUIDException {
+		if(testBoard.getData().getJSONArray("players").length()>1){
 		String name= (String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
 		testBoard.deletePlayer((UUID) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("uuid"));
 		String name2=(String) ((JSONObject) testBoard.getData().getJSONArray("players").get(0)).get("name");
 		Assert.assertNotEquals(name, name2);
 	}
+		}
 
 	/**
 	 * 

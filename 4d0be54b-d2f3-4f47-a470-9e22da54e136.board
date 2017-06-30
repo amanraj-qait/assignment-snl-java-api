@@ -2,18 +2,18 @@
   "players": [
     {
       "name": "Maxwell",
-      "position": 4,
-      "uuid": "5947216d-72bf-438b-9c1a-3fbde557cff4"
+      "position": 1,
+      "uuid": "25f885d7-20fc-4056-8e16-ca7da10f37b7"
     },
     {
       "name": "Brandon",
       "position": 0,
-      "uuid": "ed5082c6-553a-41c0-9358-f6bc1da8b870"
+      "uuid": "e1d7dee9-9daf-4325-91b2-1f765241963e"
     },
     {
       "name": "Alfred",
       "position": 0,
-      "uuid": "ca5d347b-b9e1-476b-8a9a-0e52d6ab894e"
+      "uuid": "b2f0798e-f18e-4356-a402-30cf3ac17ee5"
     }
   ],
   "turn": 1,
